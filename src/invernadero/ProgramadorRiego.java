@@ -10,20 +10,26 @@ import java.time.format.DateTimeFormatter;
 public class ProgramadorRiego extends Thread {
 
     private static final DateTimeFormatter HORA = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
-    private static final int CICLOS = 5;
+    private static final int CICLOS_POR_DEFECTO = 5;
     private static final long PAUSA = 700;               // ms entre ciclos
     private static final double LITROS_POR_RIEGO = 2.5;
 
+    private final int numCiclos;
     private int ciclos;
     private double litros;
 
     public ProgramadorRiego() {
+        this(CICLOS_POR_DEFECTO);
+    }
+
+    public ProgramadorRiego(int numCiclos) {
         super("riego");
+        this.numCiclos = numCiclos;
     }
 
     @Override
     public void run() {
-        for (int i = 1; i <= CICLOS; i++) {
+        for (int i = 1; i <= numCiclos; i++) {
             boolean abierta = i % 2 == 1;   // alterna: ABIERTA, cerrada, ABIERTA...
             ciclos++;
             if (abierta) {
